@@ -10,6 +10,7 @@ function getRandomBetween(min = 20, max = 150, randomNumber = Math.random()){
 }
 
 //async loop
+/*
 async function draw(el){
   const text = el.textContent;
   let soFar = '';
@@ -23,7 +24,24 @@ async function draw(el){
     await wait(amountOfTimeToWait); 
   }
 }
-
+*/
 //recursive loop
+function draw(el) {
+  let index = 1;
+  const text = el.textContent;
+  const {typeMin, typeMax} = el.dataset;
+  async function drawletter(){
+    el.textContent = text.slice(0, index);
+    index += 1;
+    // add exit condition to get out of the loop
+    const amountOfTimeToWait = getRandomBetween(typeMin, typeMax); // by adding this line in the code and not above as a const, we get a random value per each letter
+    await wait(amountOfTimeToWait); 
+    if(index <= text.length){
+      drawletter();
+    }
+  }
+  //when draw start, letter will draw
+  drawletter();
+}
 
 document.querySelectorAll('[data-type]').forEach(draw);
